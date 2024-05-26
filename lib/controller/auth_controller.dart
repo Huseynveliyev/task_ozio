@@ -7,7 +7,7 @@ import 'package:task/models/error_model.dart';
 import 'package:task/models/login_response_model.dart';
 import 'package:task/pages/main/main_page.dart';
 
-import 'package:task/services/api/auth_service.dart';
+import 'package:task/services/auth/auth_service.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
@@ -15,6 +15,7 @@ class AuthController extends GetxController {
   var errorMessage = ''.obs;
   final AuthService apiService;
   final box = GetStorage();
+
   AuthController({required this.apiService});
 
   Future<void> login({required String login, required String password}) async {
@@ -24,13 +25,11 @@ class AuthController extends GetxController {
       if (response is LoginResponseModel) {
         user.value = response.user;
 
-        box.write('token', response.accessToken);
-        log(box.read('token'));
+        saveToken(response.accessToken ?? '');
 
-        Get.to(() => MainPage());
+        Get.to(() => const MainPage());
       } else if (response is ErrorResponseModel) {
-        errorMessage.value = response.message;
-        showSnackbar();
+        handleErrorResponse(response.message);
       }
     } catch (e) {
       errorMessage.value = 'An error occurred';
@@ -39,6 +38,18 @@ class AuthController extends GetxController {
     }
   }
 
+  //! save token and add to all get request
+  void saveToken(String token) {
+    box.write('token', token);
+    log('Token saved: ${box.read('token')}');
+  }
+
+  void handleErrorResponse(String message) {
+    errorMessage.value = message;
+    showSnackbar();
+  }
+
+  //! if user write not correct email or password show snackbar
   SnackbarController showSnackbar() {
     return Get.snackbar(
       'Error',

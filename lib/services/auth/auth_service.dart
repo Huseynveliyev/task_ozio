@@ -4,7 +4,7 @@ import 'package:task/models/error_model.dart';
 import 'package:task/models/login_response_model.dart';
 import 'package:task/utils/constants/api_config.dart';
 
-import '../../exception/http.dart';
+import '../../exception/http_exception.dart';
 import '../../logging/dio_interceptor.dart';
 
 class AuthService {
@@ -26,6 +26,7 @@ class AuthService {
     ));
   }
 
+  //! Login metod
   Future<dynamic> login({
     required String login,
     required String password,

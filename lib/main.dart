@@ -5,7 +5,9 @@ import 'package:task/pages/auth/login_page.dart';
 
 void main() async {
   await GetStorage.init();
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {

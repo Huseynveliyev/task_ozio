@@ -6,6 +6,8 @@ import 'package:chalkdart/chalk_x11.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+//! You can see all http request log in dio interceptor
+
 class DioInterceptor extends Interceptor {
   @override
   Future<void> onRequest(

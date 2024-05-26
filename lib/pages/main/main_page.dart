@@ -19,13 +19,14 @@ class _MainPageState extends State<MainPage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  //! Refresh to MainPage
+  //! Refresh to MainPage (up to down screen with hand)
   void _onRefresh() async {
     postController.fetchPosts();
     postController.fetchComments();
     _refreshController.refreshCompleted();
   }
 
+  //! methods to run on page start
   @override
   void initState() {
     postController.fetchPosts();
@@ -99,7 +100,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  SizedBox _storyCircleListview() {
+  Widget _storyCircleListview() {
     return SizedBox(
       height: 60,
       child: ListView.builder(
@@ -250,13 +251,6 @@ class StoryCardListview extends StatelessWidget {
                           style: TextStyle(color: Colors.red),
                         ),
                         4.ph,
-                        // ...postController.comments.map((comment) {
-                        //   return Text(
-                        //     comment.text,
-                        //     style:
-                        //         const TextStyle(color: Colors.black),
-                        //   );
-                        // }),
                         Text(
                           postController.comments[index].text,
                           style: const TextStyle(

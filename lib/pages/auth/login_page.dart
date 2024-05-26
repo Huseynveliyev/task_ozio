@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task/controller/auth_controller.dart';
-import 'package:task/services/api/auth_service.dart';
+import 'package:task/services/auth/auth_service.dart';
 import 'package:task/utils/constants/app_constants.dart';
 import 'package:task/utils/constants/extensions.dart';
 import 'package:task/widgets/textfield.dart';
@@ -17,6 +17,8 @@ class LoginPage extends StatefulWidget {
 
 final AuthController authController =
     Get.put(AuthController(apiService: AuthService()));
+
+//! input controllers
 late TextEditingController _usernameController;
 late TextEditingController _passwordController;
 
@@ -75,21 +77,8 @@ class _LoginPageState extends State<LoginPage> {
                   } else {
                     return Column(
                       children: [
-                        const SizedBox(height: 10),
-                        AppCommonButton(
-                          onPressed: () {
-                            authController.errorMessage.value = '';
-                            if (_usernameController.text.isNotEmpty &&
-                                _passwordController.text.isNotEmpty) {
-                              authController.login(
-                                  login: _usernameController.text,
-                                  password: _passwordController.text);
-                            } else {
-                              authController.errorMessage.value =
-                                  'Please fill in both fields';
-                            }
-                          },
-                        ),
+                        10.ph,
+                        _handleLogin(),
                       ],
                     );
                   }
@@ -119,19 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Don’t have an account? '),
-                      Text(
-                        'Sign up.',
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ],
-                  ),
-                ),
+                _signUpButton(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: _buildDivider(),
@@ -142,6 +119,38 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Padding _signUpButton() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Don’t have an account? '),
+          Text(
+            'Sign up.',
+            style: TextStyle(color: Colors.blue),
+          ),
+        ],
+      ),
+    );
+  }
+
+  AppCommonButton _handleLogin() {
+    return AppCommonButton(
+      onPressed: () {
+        authController.errorMessage.value = '';
+        if (_usernameController.text.isNotEmpty &&
+            _passwordController.text.isNotEmpty) {
+          authController.login(
+              login: _usernameController.text,
+              password: _passwordController.text);
+        } else {
+          authController.errorMessage.value = 'Please fill in both fields';
+        }
+      },
     );
   }
 

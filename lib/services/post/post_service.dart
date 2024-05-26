@@ -63,6 +63,7 @@ class PostService {
     }
   }
 
+  //!Like or dislike post's
   Future<bool> toggleFavorite(int postId) async {
     try {
       final response = await _myDio.get('posts/like/$postId');

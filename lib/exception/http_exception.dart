@@ -1,3 +1,4 @@
+//! for handle  http exception
 class HttpException implements Exception {
   String message;
 

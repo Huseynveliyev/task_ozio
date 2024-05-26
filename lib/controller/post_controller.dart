@@ -2,12 +2,12 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:task/models/comments_response_model.dart';
 import 'package:task/models/post_model.dart';
-import 'package:task/services/api/post_service.dart';
+import 'package:task/services/post/post_service.dart';
 
 class PostController extends GetxController {
   var isLoading = false.obs;
   var posts = <Post>[].obs;
-  var comments = <Data>[].obs; // Observable list
+  var comments = <Data>[].obs;
   final PostService _postService = PostService();
   var isCommentOpened = false.obs;
   var isFavorite = false.obs;
@@ -42,7 +42,6 @@ class PostController extends GetxController {
 
   Future<void> toggleFavorite(Post post) async {
     isLoading.value = true;
-    // isFavorite.value = !isFavorite.value;
     try {
       final response = await _postService.toggleFavorite(post.id);
       if (response) {
@@ -57,6 +56,7 @@ class PostController extends GetxController {
     }
   }
 
+  //! If the user wants to see the comments
   void expandComment() {
     isCommentOpened.value = !isCommentOpened.value;
     log('${isCommentOpened.value}');
