@@ -35,8 +35,12 @@ dependencies:
   
   
   cupertino_icons: ^1.0.2
-  get_it: ^7.6.7
-
+  dio: ^5.4.3+1
+  chalk: ^1.2.1
+  chalkdart: ^2.0.9
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  pull_to_refresh: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
