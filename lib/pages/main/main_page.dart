@@ -83,7 +83,7 @@ class _MainPageState extends State<MainPage> {
         children: [
           20.ph,
           _storyCircleListview(),
-          40.ph,
+          20.ph,
           Obx(() {
             if (postController.isLoading.value) {
               return const Center(child: CircularProgressIndicator());
@@ -143,129 +143,132 @@ class StoryCardListview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
       itemCount: postController.posts.length,
       itemBuilder: (context, index) {
         var post = postController.posts[index];
 
-        return Card(
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                leading: Image.asset(
-                  ImagePaths.oval,
-                  width: 50,
-                  height: 50,
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Card(
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  leading: Image.asset(
+                    ImagePaths.oval,
+                    width: 50,
+                    height: 50,
+                  ),
+                  title: Text(post.user.username),
+                  subtitle: const Text('Baku , Azerbaijan'),
+                  trailing: const Icon(Icons.menu),
                 ),
-                title: Text(post.user.username),
-                subtitle: const Text('Tokyo, Japan'),
-                trailing: const Icon(Icons.menu),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    post.media.first.path,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      post.media.first.path,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 120,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              await postController.toggleFavorite(post);
-                            },
-                            child: Icon(
-                              post.liked
-                                  ? Icons.favorite
-                                  : Icons.favorite_outline,
-                              color: post.liked ? Colors.red : Colors.black,
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                await postController.toggleFavorite(post);
+                              },
+                              child: Icon(
+                                post.liked
+                                    ? Icons.favorite
+                                    : Icons.favorite_outline,
+                                color: post.liked ? Colors.red : Colors.black,
+                              ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () => postController.expandComment(),
-                            child: const Icon(Icons.comment_outlined),
-                          ),
-                          Image.asset(
-                            ImagePaths.messenger,
-                            width: 20,
-                            height: 20,
-                          ),
+                            GestureDetector(
+                              onTap: () => postController.expandComment(),
+                              child: const Icon(Icons.comment_outlined),
+                            ),
+                            Image.asset(
+                              ImagePaths.messenger,
+                              width: 20,
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Row(
+                        children: [
+                          Icon(Icons.bookmark_add_outlined),
                         ],
                       ),
-                    ),
-                    const Row(
-                      children: [
-                        Icon(Icons.bookmark_add_outlined),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(26, 10, 0, 10),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 13,
-                      backgroundImage: AssetImage(ImagePaths.city),
-                    ),
-                    5.pw,
-                    const Text('Liked by  '),
-                    const Text(
-                      'Messi and ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(26, 10, 0, 10),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 13,
+                        backgroundImage: AssetImage(ImagePaths.city),
                       ),
-                    ),
-                    Text(
-                      '${post.likes} others',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
-              Obx(() {
-                if (postController.comments.isNotEmpty &&
-                    postController.isCommentOpened.value) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Comments:',
-                          style: TextStyle(color: Colors.red),
+                      5.pw,
+                      const Text('Liked by  '),
+                      const Text(
+                        'Messi and ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
-                        4.ph,
-                        Text(
-                          postController.comments[index].text,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                      ),
+                      Text(
+                        '${post.likes} others',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+                Obx(() {
+                  if (postController.comments.isNotEmpty &&
+                      postController.isCommentOpened.value) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Comments:',
+                            style: TextStyle(color: Colors.red),
                           ),
-                        )
-                      ],
-                    ),
-                  );
-                }
-                return const SizedBox();
-              }),
-            ],
+                          4.ph,
+                          Text(
+                            postController.comments[index].text,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                }),
+              ],
+            ),
           ),
         );
       },

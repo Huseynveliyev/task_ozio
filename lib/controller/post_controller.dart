@@ -12,6 +12,7 @@ class PostController extends GetxController {
   var isCommentOpened = false.obs;
   var isFavorite = false.obs;
 
+
   Future<void> fetchPosts() async {
     isLoading.value = true;
     posts.clear();
@@ -41,7 +42,6 @@ class PostController extends GetxController {
   }
 
   Future<void> toggleFavorite(Post post) async {
-    isLoading.value = true;
     try {
       final response = await _postService.toggleFavorite(post.id);
       if (response) {

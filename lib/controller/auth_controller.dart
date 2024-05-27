@@ -41,9 +41,10 @@ class AuthController extends GetxController {
   //! save token and add to all get request
   void saveToken(String token) {
     box.write('token', token);
-    log('Token saved: ${box.read('token')}');
+    log('token saved: ${box.read('token')}');
   }
 
+  //! if user write not correct email or password show snackbar
   void handleErrorResponse(String message) {
     errorMessage.value = message;
     showSnackbar();
